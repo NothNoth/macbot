@@ -1,0 +1,33 @@
+#Makefile for MacBot
+MAKE = make
+OS = Linux
+default: real
+
+cam:
+	$(MAKE) -C v4l
+
+
+
+real:
+	@echo "######################################"
+	@echo "# Building drivers ...               #"
+	@echo "######################################"
+
+	$(MAKE) -C parallax
+	$(MAKE) cam
+
+
+
+sim:
+	@echo "######################################"
+	@echo "# Building fake drivers...           #"
+	@echo "######################################"
+	$(MAKE) -C servos_sim
+	$(MAKE) cam
+
+
+
+clean:
+	$(MAKE) -C parallax clean
+	$(MAKE) -C servos_sim clean
+	$(MAKE) -C v4l clean

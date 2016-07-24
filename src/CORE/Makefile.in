@@ -1,0 +1,23 @@
+#Makefile for MacBot
+CC          = @CC@
+CFLAGS      = @CFLAGS@ 
+LDFLAGS     = @LDFLAGS@ 
+TARGET      = @TARGET@
+BIN_DIR     = @BIN_DIR@
+INCLUDE_DIR = @INCLUDE_DIR@
+EXTRA_OPT   = @EXTRA_OPT@
+SOURCES = CamMgr.cpp IhmMgr.cpp ServoMgr.cpp TargetMgr.cpp VoiceMgr.cpp macbot.cpp Exception.cpp MotionDetect.cpp
+OBJ= $(SOURCES:.cpp=.o)
+
+%.o: %.cpp
+	$(CC) -o $@ -c $< $(CFLAGS) $(EXTRA_OPT)
+
+all: $(OBJ)
+	@echo "######################################"
+	@echo "# Building CORE...                   #"
+	@echo "######################################"
+	$(CC) $(CFLAGS) $(LDFLAGS) -I$(INCLUDE_DIR)  $^ -o $(BIN_DIR)/$(TARGET)
+	cp *.hpp $(INCLUDE_DIR)
+
+clean:
+	rm -f *.o $(INCLUDE_DIR)/*.hpp $(BIN_DIR)/$(TARGET) *~

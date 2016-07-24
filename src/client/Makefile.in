@@ -1,0 +1,22 @@
+#Makefile for MacBot
+CC          = @CC@
+CFLAGS      = @CFLAGS@ 
+LDFLAGS_CLIENT  = @LDFLAGS_CLIENT@ 
+TARGET      = client
+BIN_DIR     = @BIN_DIR@
+INCLUDE_DIR = @INCLUDE_DIR@
+
+SOURCES = client_macbot.cpp
+OBJ= $(SOURCES:.cpp=.o)
+
+%.o: %.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+all: $(OBJ)
+	@echo "######################################"
+	@echo "# Building Client...                 #"
+	@echo "######################################"
+	$(CC) $(CFLAGS) $(LDFLAGS_CLIENT) -I$(INCLUDE_DIR)  $^ -o $(BIN_DIR)/$(TARGET)
+
+clean:
+	rm -f *.o $(INCLUDE_DIR)/*.hpp $(BIN_DIR)/$(TARGET) *~

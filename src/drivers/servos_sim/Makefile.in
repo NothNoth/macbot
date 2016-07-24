@@ -1,0 +1,19 @@
+#Makefile for MacBot
+CC          = @CC@
+CFLAGS      = @CFLAGS@  @LIBFLAGS@
+TARGET      = servo_sim.lib
+LIB_DIR     = @LIB_DIR@
+INCLUDE_DIR = @INCLUDE_DIR@
+
+SOURCES = servo_sim.cpp
+OBJ= $(SOURCES:.cpp=.o)
+
+%.o: %.cpp
+	$(CC) -o $@ -c $< $(CFLAGS) -I./ -I$(INCLUDE_DIR)
+
+
+all: $(OBJ)
+	$(CC) $(CFLAGS)  *.o -o $(LIB_DIR)/$(TARGET)
+
+clean:
+	rm -f *.o *~ $(LIB_DIR)/$(TARGET) 

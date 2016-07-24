@@ -1,0 +1,59 @@
+AC_INIT()
+CC=g++
+
+
+OS=`uname -s`;
+
+
+if test [$OS = "Darwin"]; then
+  OS="MacOS"
+  LIBFLAGS="-dynamiclib -fPIC -undefined dynamic_lookup"
+  CFLAGS="-I/opt/local/include/opencv/ -I/usr/include/flite/ -Wall -O3 -fPIC -g `sdl-config --cflags` -D_MACOS"
+  LDFLAGS="-lpthread -ldl -L/opt/local/lib/ -lm -lcv -lhighgui -lcvaux -lcxcore `sdl-config --libs` -lSDL_ttf -lSDL_gfx -lz"
+  LDFLAGS_CLIENT="-lpthread -ldl -L/opt/local/lib/ -lm `sdl-config --libs` -lSDL_gfx -lz"
+  echo "Configuring for "$OS;
+else
+  OS="Linux"
+  LIBFLAGS="-shared -rdynamic -fPIC"
+  CFLAGS="-I/usr/include/opencv/ -I/usr/include/flite/ -Wall -rdynamic -O3 -fPIC -g `sdl-config --cflags` -D_LINUX"
+  LDFLAGS="-lpthread -ldl -lm -lcv -lhighgui -lcvaux  -lcxcore `sdl-config --libs` -lSDL_ttf -lSDL_gfx -lflite_cmu_us_kal -lflite_usenglish -lflite_cmulex -lflite -lz"
+  LDFLAGS_CLIENT="-lpthread -ldl -L/opt/local/lib/ -lm `sdl-config --libs` -lSDL_gfx -lz"
+  echo "Configuring for "$OS;
+fi
+AC_SUBST(OS)
+
+
+
+MAKE=make
+INCLUDE_DIR=`pwd`/include/
+LIB_DIR=`pwd`/lib/
+BIN_DIR=`pwd`/bin/
+TARGET=macbot
+EXTRA_OPT=
+
+AC_SUBST(CC)
+AC_SUBST(CFLAGS)
+AC_SUBST(LDFLAGS)
+AC_SUBST(LDFLAGS_CLIENT)
+AC_SUBST(LIBFLAGS)
+AC_SUBST(MAKE)
+AC_SUBST(INCLUDE_DIR)
+AC_SUBST(LIB_DIR)
+AC_SUBST(BIN_DIR)
+AC_SUBST(TARGET)
+AC_SUBST(EXTRA_OPT)
+
+AC_OUTPUT([
+ Makefile
+ src/Makefile
+ src/CORE/Makefile
+ src/client/Makefile
+ src/drivers/Makefile
+ src/drivers/parallax/Makefile
+ src/drivers/servos_sim/Makefile 
+ src/drivers/v4l/Makefile
+])
+
+
+echo "->Ready"
+echo 
